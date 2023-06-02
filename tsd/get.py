@@ -28,8 +28,6 @@ def get_series(args):
 
     # list available images
     images = get.search(args.geom, args.start_date, args.end_date)
-    print(images)
-    print(args.geom, args.start_date, args.end_date)
 
     # Only keep a limited number of images because of IPOL time constraints
     if args.max > 0:
@@ -63,7 +61,7 @@ def get_nearest(args):
     # list available images
     images = get.search(args.geom, args.start_date, args.end_date)
     # select the nearest date
-    images = [min(images, key=lambda x: abs(k.date.date() - args.date))]
+    images = [min(images, key=lambda x: abs(x.date.date() - args.date))]
 
     # download crops
     get.download(images, args.band, args.geom, out_dir=args.outdir)

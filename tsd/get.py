@@ -36,7 +36,7 @@ def get_series(args):
     # download crops
     get.download(images, args.band, args.geom, out_dir=args.outdir)
 
-    images = [i for i in images if bands_files_are_valid(i, bands, out_dir)]
+    images = [i for i in images if bands_files_are_valid(i, args.band, args.outdir)]
     if len(images) == 0:
         # No images have been downloaded, report of a failure to the demo system
         with open("demo_failure.txt", "w") as f:
@@ -66,7 +66,7 @@ def get_nearest(args):
     # download crops
     get.download(images, args.band, args.geom, out_dir=args.outdir)
 
-    images = [i for i in images if bands_files_are_valid(i, bands, out_dir)]
+    images = [i for i in images if bands_files_are_valid(i, args.band, args.outdir)]
     if len(images) == 0:
         # No images have been downloaded, report of a failure to the demo system
         with open("demo_failure.txt", "w") as f:

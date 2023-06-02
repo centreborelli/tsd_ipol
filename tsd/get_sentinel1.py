@@ -180,12 +180,13 @@ def search(aoi, start_date=None, end_date=None, product_type="GRD",
     return images
 
 
-def download_crops(imgs, aoi, mirror, out_dir, parallel_downloads, timeout=600):
+def download(imgs, bands, aoi, mirror, out_dir, parallel_downloads, timeout=600):
     """
     Download a timeseries of crops with GDAL VSI feature.
 
     Args:
         imgs (list): list of images
+        bands: useless, only to match the definition of the download functions of the other satellites
         aoi (geojson.Polygon): area of interest
         mirror (str): either 'peps', 'aws' or 'scihub'
         out_dir (str): path where to store the downloaded crops
@@ -252,7 +253,7 @@ def get_time_series(aoi, start_date=None, end_date=None, out_dir='',
         if download_mirror != "aws":
             print('WARINING: Changing mirror to aws (because product type is GRD)')
             download_mirror = "aws"
-        download_crops(images, aoi, download_mirror, out_dir,
+        download(images, None, aoi, download_mirror, out_dir,
                        parallel_downloads, timeout=timeout)
 
     else: # download full images from scihub

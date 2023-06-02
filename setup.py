@@ -50,5 +50,5 @@ setup(name=about["__title__"],
       entry_points="""
           [console_scripts]
           tsd=tsd.get:main
-      """
+      """,
       python_requires=">=3.5")

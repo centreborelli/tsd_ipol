@@ -60,7 +60,7 @@ def get_nearest(args):
         exit(1)
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(description=('TODO'))
     subparsers = parser.add_subparsers(help="subparsers")
     parser_series = subparsers.add_parser('series')
@@ -106,3 +106,6 @@ if __name__ == '__main__':
                                                                  'images'), default='')
 
     args = parser.parse_args()
+
+if __name__ == '__main__':
+    main()

@@ -3,6 +3,7 @@ import multiprocessing
 import geojson
 import shapely
 import datetime
+import os
 from tsd import utils
 from tsd import get_sentinel2, get_sentinel1, get_sentinel3
 

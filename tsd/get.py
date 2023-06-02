@@ -61,7 +61,7 @@ def get_nearest(args):
     # list available images
     images = get.search(args.geom, args.start_date, args.end_date)
     # select the nearest date
-    images = [min(images, key=lambda x: abs(x.date.date() - args.date))]
+    images = [min(images, key=lambda x: abs(x.date.date() - args.date.date()))]
 
     # download crops
     get.download(images, args.band, args.geom, out_dir=args.outdir)

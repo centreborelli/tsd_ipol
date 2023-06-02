@@ -27,7 +27,7 @@ def get_series(args):
         images = images[:args.max]
 
     # download crops
-    get.download(images, bands, aoi, mirror, out_dir, parallel_downloads, no_crop, timeout)
+    get.download(images, args.band, args.geom, out_dir=args.outdir)
 
     images = [i for i in images if bands_files_are_valid(i, bands, out_dir)]
     if len(images) == 0:
@@ -50,7 +50,7 @@ def get_nearest(args):
     images = [min(images, key=lambda x: abs(k.date.date() - args.date))]
 
     # download crops
-    get.download(images, bands, aoi, mirror, out_dir, parallel_downloads, no_crop, timeout)
+    get.download(images, args.band, args.geom, out_dir=args.outdir)
 
     images = [i for i in images if bands_files_are_valid(i, bands, out_dir)]
     if len(images) == 0:
@@ -64,8 +64,6 @@ def main():
     parser = argparse.ArgumentParser(description=('TODO'))
     subparsers = parser.add_subparsers(help="subparsers")
     parser_series = subparsers.add_parser('series')
-    parser_series.set_defaults(func=get_series) 
-
     parser_series.add_argument('--sat', choices=['Sentinel1', 'Sentinel2', 'Sentinel3', 'Landsat8'],
                                help=('satellite model'))
     parser_series.add_argument('--geom', type=str,
@@ -83,12 +81,11 @@ def main():
                                      ' download. No check are performed here')
     parser_series.add_argument('-o', '--outdir', type=str, help=('path to save the '
                                                                  'images'), default='')
-    parser_series.add_argument('-m', '--max', type=int, help=('maximum amount of images ',
-                                                          'to be retrieved'), default=-1)
+    parser_series.add_argument('-m', '--max', type=int, help='maximum amount of images to be retrieved', default=-1)
+    parser_series.set_defaults(func=get_series) 
 
 
     parser_nearest = subparsers.add_parser('nearest')
-    parser_nearest.set_defaults(func=get_nearest) 
     parser_nearest.add_argument('--sat', choices=['Sentinel1', 'Sentinel2', 'Sentinel3', 'Landsat8'],
                                help=('satellite model'))
     parser_nearest.add_argument('--geom', type=str,
@@ -104,8 +101,10 @@ def main():
                                      ' download. No check are performed here')
     parser_nearest.add_argument('-o', '--outdir', type=str, help=('path to save the '
                                                                  'images'), default='')
+    parser_nearest.set_defaults(func=get_nearest) 
 
     args = parser.parse_args()
+    args.func(args)
 
 if __name__ == '__main__':
     main()

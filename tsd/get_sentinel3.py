@@ -93,7 +93,7 @@ def search(aoi=None, start_date=None, end_date=None, product_type="SL_1_RBT___",
     return images
 
 
-def download(imgs, bands, aoi, mirror, out_dir, parallel_downloads, no_crop=False, timeout=60):
+def download(imgs, bands, aoi, mirror="aws", out_dir='./out/', parallel_downloads=multiprocessing.cpu_count(), no_crop=False, timeout=60):
     """
     Download a timeseries of crops with GDAL VSI feature.
 

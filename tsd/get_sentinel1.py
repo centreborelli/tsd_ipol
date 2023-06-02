@@ -180,7 +180,7 @@ def search(aoi, start_date=None, end_date=None, product_type="GRD",
     return images
 
 
-def download(imgs, bands, aoi, mirror, out_dir, parallel_downloads, timeout=600):
+def download(imgs, bands, aoi, mirror='aws', out_dir='./out/', parallel_downloads=multiprocessing.cpu_count(), timeout=600):
     """
     Download a timeseries of crops with GDAL VSI feature.
 

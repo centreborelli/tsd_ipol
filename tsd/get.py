@@ -89,20 +89,20 @@ def main():
 
     parser_nearest = subparsers.add_parser('nearest')
     parser_nearest.set_defaults(func=get_nearest) 
-    parser_series.add_argument('--sat', choices=['Sentinel1', 'Sentinel2', 'Sentinel3', 'Landsat8'],
+    parser_nearest.add_argument('--sat', choices=['Sentinel1', 'Sentinel2', 'Sentinel3', 'Landsat8'],
                                help=('satellite model'))
-    parser_series.add_argument('--geom', type=str,
+    parser_nearest.add_argument('--geom', type=str,
                                help=('path to geojson file'))
-    parser_series.add_argument('-w', '--width', type=int, default=512,
+    parser_nearest.add_argument('-w', '--width', type=int, default=512,
                                help='width of the images produced, default 512 pixels')
-    parser_series.add_argument('-l', '--height', type=int, default=512,
+    parser_nearest.add_argument('-l', '--height', type=int, default=512,
                                help='height of the images produced, default 512 pixels')
-    parser_series.add_argument('-d', '--date', type=utils.valid_datetime,
+    parser_nearest.add_argument('-d', '--date', type=utils.valid_datetime,
                                help='requested date, YYYY-MM-DD')
-    parser_series.add_argument('-b', '--band', nargs='*', default=['B04'], metavar='',
+    parser_nearest.add_argument('-b', '--band', nargs='*', default=['B04'], metavar='',
                                help='space separated list of spectral bands to'
                                      ' download. No check are performed here')
-    parser_series.add_argument('-o', '--outdir', type=str, help=('path to save the '
+    parser_nearest.add_argument('-o', '--outdir', type=str, help=('path to save the '
                                                                  'images'), default='')
 
     args = parser.parse_args()

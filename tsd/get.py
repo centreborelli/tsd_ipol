@@ -1,13 +1,20 @@
 import argparse
 import multiprocessing
-from tsd import utils
 import geojson
 import shapely
 import datetime
+from tsd import utils
 from tsd import get_sentinel2, get_sentinel1, get_sentinel3
 
 spatial_resolution = {'Sentinel2': (10, 10), 'Sentinel1': (10, 3), 'Sentinel3': (500, 500)}
 get_sat = {'Sentinel2': get_sentinel2, 'Sentinel1': get_sentinel1, 'Sentinel3': get_sentinel3}
+
+def bands_files_are_valid(img, bands, d):
+    """
+    Check if all bands images files are valid.
+    """
+    return all(utils.is_valid(os.path.join(d, f"{img.filename}_band_{b}.tif")) for b in bands)
+
 
 def get_series(args):
     get = get_sat[args.sat]
@@ -21,6 +28,8 @@ def get_series(args):
 
     # list available images
     images = get.search(args.geom, args.start_date, args.end_date)
+    print(images)
+    print(args.geom, args.start_date, args.end_date)
 
     # Only keep a limited number of images because of IPOL time constraints
     if args.max > 0:
@@ -39,6 +48,13 @@ def get_series(args):
 
 def get_nearest(args):
     get = get_sat[args.sat]
+
+    with open(args.geom) as f:
+        features = geojson.load(f)["features"]
+        geoshape = shapely.geometry.shape(features[0]["geometry"])
+        centroid = geoshape.centroid
+        args.geom = utils.geojson_geometry_object(centroid.y, centroid.x,
+                args.width*spatial_resolution[args.sat][0], args.height*spatial_resolution[args.sat][1])
 
     # Define a search period with ± two weeks around the requested date
     args.start_date = args.date - datetime.timedelta(days=14)

@@ -216,7 +216,7 @@ def download(imgs, bands, aoi, mirror='aws', out_dir='./out/', parallel_download
             continue
 
         for p in img.polarisations:
-            fname = os.path.join(out_dir, '{}_{}.tif'.format(img.filename, p))
+            fname = os.path.join(out_dir, '{}__band_{}.tif'.format(img.filename, p))
             crops_args.append((fname, img.urls[mirror][p], *coords))
 
     if nb_removed:
